@@ -6,7 +6,7 @@ import './App.css';
 
 const address = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
 const apiKey = '6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
-const etherscanApiLink = 'http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
+const etherscanApiLink = 'https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
 const isSearched = searchTerm => item =>
 item.from.toLowerCase().includes(searchTerm.toLowerCase());
