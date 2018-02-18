@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './img/scalingnow.svg';
+import logo from './scalingnow.svg';
 import './App.css';
 
 // Uncomment THIS for testing with raw data (sample output for etherscan)
