@@ -52,3 +52,28 @@ cursor: pointer;
 border-radius: 0;
 border-bottom: 1px solid #38BB6C;
 }
+
+.Container {
+
+}
+
+h1 {
+  padding: 0.5rem;
+}
+
+.App {
+  background-image: url('./img/scaleth.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: max;
+  height: 100vh;
+}
+
+.Entry {
+    padding: 0.5rem;
+    background-color: white;
+}
+
+.Search {
+  padding: 0.5rem;
+}
