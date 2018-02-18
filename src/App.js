@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './img/scalingnow.svg';
 import './App.css';
 
 // Uncomment THIS for testing with raw data (sample output for etherscan)
@@ -24,6 +24,7 @@ class App extends Component {
 
   this.onSearchChange = this.onSearchChange.bind(this);
   this.fetchAddressList = this.fetchAddressList.bind(this);
+  this.filterEthList = this.filterEthList.bind(this);
   }
 
   onSearchChange(event) {
@@ -38,18 +39,24 @@ class App extends Component {
             ethlist: responseJson.result,
           })
     })
+
     .catch((error) => {
       console.error(error);
     });
   }
 
+  filterEthList() {
+  }
+
   componentDidMount() {
     this.fetchAddressList();
+    this.filterEthList();
   }
 
   render()  {
     return  (
       <div  className="App">
+        <h1>ETH Leaderboard</h1>
         <form className="Search">
         <input
           type="text"
@@ -59,12 +66,13 @@ class App extends Component {
         </form>
 
         {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
-          <div  key={item.hash}>
+
+          <div  key={item.hash} className="Entry">
+            <span>Address {item.from} </span>
+            <span>sent {item.value} ETH</span>
             <span>
-              <a  href={item.hash}>tx# {item.transactionIndex} </a>
+              <a  href={'https://rinkeby.etherscan.io/tx/' + item.hash}> See Transaction</a>
             </span>
-            <span>from {item.from} </span>
-            <span>{item.value} ETH</span>
           </div>
         )}
 
