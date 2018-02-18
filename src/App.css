@@ -62,7 +62,7 @@ h1 {
 }
 
 .App {
-  background-image: url('./img/scaleth.svg');
+  background-image: url('./scaleth.svg');
   background-repeat: no-repeat;
   background-size: cover;
   width: max;
