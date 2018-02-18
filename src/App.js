@@ -2,28 +2,15 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-// Data for testing
-const list = [
-  {
-    title: 'React',
-    url: 'https://facebook.github.io/react/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://github.com/reactjs/redux',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 5,
-    objectID: 1,
-  },
-];
+// Uncomment THIS for testing with raw data (sample output for etherscan)
+// import DATA from './testdata.js'
+
+const address = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
+const apiKey = '6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
+const etherscanApiLink = 'http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
 const isSearched = searchTerm => item =>
-item.title.toLowerCase().includes(searchTerm.toLowerCase());
+item.from.toLowerCase().includes(searchTerm.toLowerCase());
 
 class App extends Component {
 
@@ -31,51 +18,53 @@ class App extends Component {
   super(props);
 
   this.state = {
-    list: list,
+    ethlist: [],
     searchTerm: '',
   };
 
   this.onSearchChange = this.onSearchChange.bind(this);
-  this.onDismiss = this.onDismiss.bind(this);
+  this.fetchAddressList = this.fetchAddressList.bind(this);
   }
 
   onSearchChange(event) {
     this.setState({ searchTerm: event.target.value });
   }
 
-  onDismiss(id) {
-    const isNotId = item => item.objectID !== id;
-    const updatedList = this.state.list.filter(isNotId);
-    this.setState({ list: updatedList });
+  fetchAddressList() {
+    fetch(`${etherscanApiLink}`)
+    .then((originalResponse) => originalResponse.json())
+    .then((responseJson) => {
+          this.setState({
+            ethlist: responseJson.result,
+          })
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+  componentDidMount() {
+    this.fetchAddressList();
   }
 
   render()  {
     return  (
       <div  className="App">
-        <form>
+        <form className="Search">
         <input
           type="text"
           onChange={this.onSearchChange}
+          placeholder="search for address"
         />
         </form>
 
-        {this.state.list.filter(isSearched(this.state.searchTerm)).map(item =>
-          <div  key={item.objectID}>
+        {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
+          <div  key={item.hash}>
             <span>
-              <a  href={item.url}>{item.title}</a>
+              <a  href={item.hash}>tx# {item.transactionIndex} </a>
             </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-
-            <span>
-              <button
-                onClick={() => this.onDismiss(item.objectID)}
-                type="button"
-              >
-                Dismiss
-              </button>
-            </span>
+            <span>from {item.from} </span>
+            <span>{item.value} ETH</span>
           </div>
         )}
 
