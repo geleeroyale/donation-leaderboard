@@ -70,10 +70,11 @@ h1 {
 }
 
 .Entry {
-    padding: 0.5rem;
-    background-color: white;
+  padding: 0.5rem;
+  background-color: white;
 }
 
 .Search {
-  padding: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
