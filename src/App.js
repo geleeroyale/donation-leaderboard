@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   fetchAddressList = () => {
-    fetch(`${etherscanApiLink}`)
+    return fetch(`${etherscanApiLink}`)
     .then((originalResponse) => originalResponse.json())
     .then((responseJson) => {
           this.setState({
@@ -40,12 +40,13 @@ class App extends Component {
     });
   }
 
-  processEthList = () => {
+  processEthList = (ethlist) => {
   }
 
   componentDidMount = () => {
-    this.fetchAddressList();
-    this.processEthList();
+    this.fetchAddressList().then(() => {
+      this.processEthList(this.state.ethlist);
+    });
   }
 
   render = () => {
