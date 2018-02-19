@@ -71,18 +71,26 @@ class App extends Component {
         />
         </form>
 
+        <table>
+          <tr>
+            <th>Address</th>
+            <th>Value</th>
+            <th>Tx Link</th>
+          </tr>
+
         {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
 
-          <div  key={item.hash} className="Entry">
-            <span>Address {item.from} </span>
-            <span>sent {item.value} ETH</span>
-            <span>
+          <tr  key={item.hash} className="Entry">
+            <td>{item.from} </td>
+            <td>{item.value} ETH</td>
+            <td>
               <a  href={'https://rinkeby.etherscan.io/tx/' + item.hash}> See Transaction</a>
-            </span>
-          </div>
+            </td>
+          </tr>
         )}
 
-      </div>
+      </table>
+    </div>
     );
 
   // End of render()
