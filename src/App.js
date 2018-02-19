@@ -13,24 +13,20 @@ item.from.toLowerCase().includes(searchTerm.toLowerCase());
 
 class App extends Component {
 
-  constructor(props)  {
-  super(props);
+    constructor(props)  {
+    super(props);
 
-  this.state = {
-    ethlist: [],
-    searchTerm: '',
-  };
-
-  this.onSearchChange = this.onSearchChange.bind(this);
-  this.fetchAddressList = this.fetchAddressList.bind(this);
-  this.filterEthList = this.filterEthList.bind(this);
+    this.state = {
+      ethlist: [],
+      searchTerm: '',
+    };
   }
 
-  onSearchChange(event) {
+  onSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value });
   }
 
-  fetchAddressList() {
+  fetchAddressList = () => {
     fetch(`${etherscanApiLink}`)
     .then((originalResponse) => originalResponse.json())
     .then((responseJson) => {
@@ -44,15 +40,15 @@ class App extends Component {
     });
   }
 
-  filterEthList() {
+  filterEthList = () => {
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.fetchAddressList();
     this.filterEthList();
   }
 
-  render()  {
+  render = () => {
     return  (
       <div  className="App">
         <h1>ETH Leaderboard</h1>
