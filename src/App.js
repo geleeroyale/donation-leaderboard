@@ -43,10 +43,13 @@ class App extends Component {
   processEthList = (ethlist) => {
     const filteredEthList = ethlist
       .map((obj) => {
-        obj.value = parseFloat(obj.value);
-        console.log(obj);
-        return obj;})
-      .filter((obj) => {return obj.value !== 0});
+        obj.value = parseFloat(obj.value); // convert string to float
+        return obj;
+      })
+      .filter((obj) => {return obj.value !== 0})
+      .sort((a,b) => {
+        return parseFloat(b.value) - parseFloat(a.value);
+      });
     return this.setState({ethlist: filteredEthList});
   }
 
