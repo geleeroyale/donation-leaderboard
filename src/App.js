@@ -40,12 +40,12 @@ class App extends Component {
     });
   }
 
-  filterEthList = () => {
+  processEthList = () => {
   }
 
   componentDidMount = () => {
     this.fetchAddressList();
-    this.filterEthList();
+    this.processEthList();
   }
 
   render = () => {
