@@ -49,6 +49,10 @@ class App extends Component {
       .filter((obj) => {return obj.value !== 0})
       .sort((a,b) => {
         return parseFloat(b.value) - parseFloat(a.value);
+      })
+      .map((obj, index) => {
+        obj.rank = index + 1;
+        return obj;
       });
     return this.setState({ethlist: filteredEthList});
   }
@@ -73,6 +77,7 @@ class App extends Component {
 
         <table>
           <tr>
+            <th>Rank</th>
             <th>Address</th>
             <th>Value</th>
             <th>Tx Link</th>
@@ -81,6 +86,7 @@ class App extends Component {
         {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
 
           <tr  key={item.hash} className="Entry">
+            <td>{item.rank} </td>
             <td>{item.from} </td>
             <td>{item.value} ETH</td>
             <td>
