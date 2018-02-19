@@ -41,6 +41,13 @@ class App extends Component {
   }
 
   processEthList = (ethlist) => {
+    const filteredEthList = ethlist
+      .map((obj) => {
+        obj.value = parseFloat(obj.value);
+        console.log(obj);
+        return obj;})
+      .filter((obj) => {return obj.value !== 0});
+    return this.setState({ethlist: filteredEthList});
   }
 
   componentDidMount = () => {
