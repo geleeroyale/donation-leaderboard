@@ -46,6 +46,7 @@ class App extends Component {
     const form = event.target;
     let donateWei = new myweb3.utils.BN(myweb3.utils.toWei(form.elements['amount'].value, 'ether'));
     let remarks = myweb3.utils.toHex(form.elements['remarks'].value);
+    let extraGas = form.elements['remarks'].value.length * 68;
 
     myweb3.eth.net.getId()
       .then((netId) => {
@@ -66,6 +67,7 @@ class App extends Component {
                 from: accounts[0],
                 to: address,
                 value: donateWei,
+                gas : 21000 + extraGas,
                 data: remarks
               }).catch((e)=>{
                 console.log(e);
