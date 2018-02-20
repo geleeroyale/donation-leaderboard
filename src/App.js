@@ -17,12 +17,6 @@ class App extends Component {
     constructor(props)  {
     super(props);
 
-      if(typeof window.web3 !== "undefined" && typeof window.web3.currentProvider !== "undefined") {
-        myweb3 = new Web3(window.web3.currentProvider);
-      } else {
-        myweb3 = new Web3();
-      }
-
     this.state = {
       ethlist: [],
       searchTerm: '',
@@ -50,8 +44,45 @@ class App extends Component {
   handleDonate = (event) => {
     event.preventDefault();
     const form = event.target;
-    const data = new FormData(form);
-    debugger;
+    let donateWei = new myweb3.utils.BN(myweb3.utils.toWei(form.elements['amount'].value, 'ether'));
+    let remarks = myweb3.utils.toHex(form.elements['remarks'].value);
+
+    myweb3.eth.net.getId()
+      .then((netId) => {
+        switch (netId) {
+          case 1:
+            console.log('This is mainnet')
+            break
+          case 2:
+            console.log('This is the deprecated Morden test network.')
+            break
+          case 3:
+            console.log('This is the ropsten test network.')
+            break
+          case 4:
+            console.log('This is the Rinkeby test network.');
+            return myweb3.eth.getAccounts().then((accounts) => {
+              return myweb3.eth.sendTransaction({
+                from: accounts[0],
+                to: address,
+                value: donateWei,
+                data: remarks
+              }).catch((e)=>{
+                console.log(e);
+              });
+            });
+            break
+          case 42:
+            console.log('This is the Kovan test network.')
+            break
+          default:
+            console.log('This is an unknown network.')
+        }
+      });
+
+      // debugger;
+
+
   }
 
   processEthList = (ethlist) => {
@@ -72,6 +103,14 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+
+    if(typeof window.web3 !== "undefined" && typeof window.web3.currentProvider !== "undefined") {
+      myweb3 = new Web3(window.web3.currentProvider);
+      myweb3.eth.defaultAccount = window.web3.eth.defaultAccount;
+    } else {
+      myweb3 = new Web3();
+    }
+
     this.fetchAddressList().then(() => {
       this.processEthList(this.state.ethlist);
     });
@@ -95,6 +134,7 @@ class App extends Component {
             <th>Rank</th>
             <th>Address</th>
             <th>Value</th>
+            <th>Remarks</th>
             <th>Tx Link</th>
           </tr>
           </thead>
@@ -106,6 +146,7 @@ class App extends Component {
             <td>{item.rank} </td>
             <td>{item.from} </td>
             <td>{myweb3.utils.fromWei(item.value)} ETH</td>
+            <td>{myweb3.utils.hexToAscii(item.input)}</td>
             <td>
               <a  href={'https://rinkeby.etherscan.io/tx/' + item.hash}> See Transaction</a>
             </td>
