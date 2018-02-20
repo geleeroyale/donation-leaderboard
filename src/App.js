@@ -76,12 +76,15 @@ class App extends Component {
         </form>
 
         <table>
+          <thead>
           <tr>
             <th>Rank</th>
             <th>Address</th>
             <th>Value</th>
             <th>Tx Link</th>
           </tr>
+          </thead>
+          <tbody>
 
         {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
 
@@ -94,7 +97,7 @@ class App extends Component {
             </td>
           </tr>
         )}
-
+        </tbody>
       </table>
     </div>
     );
