@@ -9,7 +9,9 @@ const etherscanApiLink = 'https://api-rinkeby.etherscan.io/api?module=account&ac
 
 const isSearched = searchTerm => item =>
 item.from.toLowerCase().includes(searchTerm.toLowerCase());
+
 var myweb3
+
 class App extends Component {
 
     constructor(props)  {
@@ -120,17 +122,24 @@ class App extends Component {
         <h1>ETH Leaderboard</h1>
         <p><strong>Donation address: {donationAddress}</strong></p>
         <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
-        <form className="Search">
-        <input
-          type="text"
-          onChange={this.onSearchChange}
-          placeholder="search for address"
-        />
-        </form>
 
-        <table>
-          <thead>
-          <tr>
+        <form onSubmit={this.handleDonate}>
+          <input
+            type="text"
+            placeholder="amount to donate in ETH"
+            name="amount"
+          />
+          <input
+            type="text"
+            name="remarks"
+            placeholder="remarks"
+          />
+          <button>Send data!</button>
+          </form>
+
+        <table className="table">
+          <thead className="table-header">
+          <tr  className="table-row">
             <th>Rank</th>
             <th>Address</th>
             <th>Value</th>
@@ -155,19 +164,14 @@ class App extends Component {
         </tbody>
       </table>
 
-      <form onSubmit={this.handleDonate}>
-        <input
-          type="text"
-          placeholder="amount to donate in ETH"
-          name="amount"
-        />
-        <input
-          type="text"
-          name="remarks"
-          placeholder="remarks"
-        />
-        <button>Send data!</button>
-        </form>
+      <form className="Search">
+      <input
+        type="text"
+        onChange={this.onSearchChange}
+        placeholder="search leaderboard"
+      />
+      </form>
+
     </div>
     );
 
