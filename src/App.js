@@ -138,8 +138,8 @@ class App extends Component {
           </form>
 
         <table className="table">
-          <thead className="table-header">
-          <tr  className="table-row">
+          <thead>
+          <tr>
             <th>Rank</th>
             <th>Address</th>
             <th>Value</th>
