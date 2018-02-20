@@ -46,6 +46,13 @@ class App extends Component {
       console.error(error);
     });
   }
+    
+  handleDonate = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    debugger;
+  }
 
   processEthList = (ethlist) => {
     const filteredEthList = ethlist
@@ -106,6 +113,20 @@ class App extends Component {
         )}
         </tbody>
       </table>
+
+      <form onSubmit={this.handleDonate}>
+        <input
+          type="text"
+          placeholder="amount to donate in ETH"
+          name="amount"
+        />
+        <input
+          type="text"
+          name="remarks"
+          placeholder="remarks"
+        />
+        <button>Send data!</button>
+        </form>
     </div>
     );
 
