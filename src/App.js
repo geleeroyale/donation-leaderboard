@@ -68,6 +68,7 @@ class App extends Component {
       <div  className="App">
         <h1>ETH Leaderboard</h1>
         <p><strong>Donation address: {donationAddress}</strong></p>
+        <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
         <form className="Search">
         <input
           type="text"
