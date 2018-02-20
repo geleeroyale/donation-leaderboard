@@ -13,25 +13,21 @@ item.from.toLowerCase().includes(searchTerm.toLowerCase());
 
 class App extends Component {
 
-  constructor(props)  {
-  super(props);
+    constructor(props)  {
+    super(props);
 
-  this.state = {
-    ethlist: [],
-    searchTerm: '',
-  };
-
-  this.onSearchChange = this.onSearchChange.bind(this);
-  this.fetchAddressList = this.fetchAddressList.bind(this);
-  this.filterEthList = this.filterEthList.bind(this);
+    this.state = {
+      ethlist: [],
+      searchTerm: '',
+    };
   }
 
-  onSearchChange(event) {
+  onSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value });
   }
 
-  fetchAddressList() {
-    fetch(`${etherscanApiLink}`)
+  fetchAddressList = () => {
+    return fetch(`${etherscanApiLink}`)
     .then((originalResponse) => originalResponse.json())
     .then((responseJson) => {
           this.setState({
@@ -44,15 +40,30 @@ class App extends Component {
     });
   }
 
-  filterEthList() {
+  processEthList = (ethlist) => {
+    const filteredEthList = ethlist
+      .map((obj) => {
+        obj.value = parseFloat(obj.value); // convert string to float
+        return obj;
+      })
+      .filter((obj) => {return obj.value !== 0})
+      .sort((a,b) => {
+        return parseFloat(b.value) - parseFloat(a.value);
+      })
+      .map((obj, index) => {
+        obj.rank = index + 1;
+        return obj;
+      });
+    return this.setState({ethlist: filteredEthList});
   }
 
-  componentDidMount() {
-    this.fetchAddressList();
-    this.filterEthList();
+  componentDidMount = () => {
+    this.fetchAddressList().then(() => {
+      this.processEthList(this.state.ethlist);
+    });
   }
 
-  render()  {
+  render = () => {
     return  (
       <div  className="App">
         <h1>ETH Leaderboard</h1>
@@ -65,18 +76,28 @@ class App extends Component {
         />
         </form>
 
+        <table>
+          <tr>
+            <th>Rank</th>
+            <th>Address</th>
+            <th>Value</th>
+            <th>Tx Link</th>
+          </tr>
+
         {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
 
-          <div  key={item.hash} className="Entry">
-            <span>Address {item.from} </span>
-            <span>sent {item.value} ETH</span>
-            <span>
+          <tr  key={item.hash} className="Entry">
+            <td>{item.rank} </td>
+            <td>{item.from} </td>
+            <td>{item.value} ETH</td>
+            <td>
               <a  href={'https://rinkeby.etherscan.io/tx/' + item.hash}> See Transaction</a>
-            </span>
-          </div>
+            </td>
+          </tr>
         )}
 
-      </div>
+      </table>
+    </div>
     );
 
   // End of render()
