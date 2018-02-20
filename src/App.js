@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-// Uncomment THIS for testing with raw data (sample output for etherscan)
-//import DATA from './testdata.js'
 import Web3 from 'web3'
 
 const donationAddress = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
@@ -40,7 +38,7 @@ class App extends Component {
       console.error(error);
     });
   }
-    
+
   handleDonate = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -64,7 +62,7 @@ class App extends Component {
             return myweb3.eth.getAccounts().then((accounts) => {
               return myweb3.eth.sendTransaction({
                 from: accounts[0],
-                to: address,
+                to: donationAddress,
                 value: donateWei,
                 data: remarks
               }).catch((e)=>{
