@@ -6,6 +6,7 @@ import './App.css';
 import Web3 from 'web3'
 
 const address = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
+const startblock = 1619115;
 const apiKey = '6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 const etherscanApiLink = 'https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
@@ -27,18 +28,64 @@ class App extends Component {
     this.setState({ searchTerm: event.target.value });
   }
 
-  fetchAddressList = () => {
-    return fetch(`${etherscanApiLink}`)
-    .then((originalResponse) => originalResponse.json())
-    .then((responseJson) => {
-          this.setState({
-            ethlist: responseJson.result,
-          })
-    })
 
-    .catch((error) => {
-      console.error(error);
+getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
+  if (endBlockNumber == null) {
+    endBlockNumber = myweb3.eth.blockNumber;
+    console.log("Using endBlockNumber: " + endBlockNumber);
+  }
+  if (startBlockNumber == null) {
+    startBlockNumber = endBlockNumber - 1000;
+    console.log("Using startBlockNumber: " + startBlockNumber);
+  }
+  console.log("Searching for transactions to/from account \"" + myaccount + "\" within blocks "  + startBlockNumber + " and " + endBlockNumber);
+
+  let txs = [];
+  for (var i = startBlockNumber; i <= endBlockNumber; i++) {
+    if (i % 1000 == 0) {
+      console.log("Searching block " + i);
+    }
+    var block = myweb3.eth.getBlock(i, true);
+    if (block != null && block.transactions != null) {
+      block.transactions.forEach( function(e) {
+        if (myaccount == "*" || myaccount == e.from || myaccount == e.to) {
+          txs.push(e);
+        }
+      })
+    }
+  }
+
+  return txs;
+
+
+}
+
+
+  fetchAddressList = () => {
+
+    return myweb3.eth.getBlockNumber().then((endblock)=>{
+      debugger;
+      let txs = this.getTransactionsByAccount(address,startblock,endblock);
+
+
+      this.setState({
+        ethlist: txs,
+      })
+
     });
+
+
+    // return fetch(`${etherscanApiLink}`)
+    // .then((originalResponse) => originalResponse.json())
+    // .then((responseJson) => {
+    //       this.setState({
+    //         ethlist: responseJson.result,
+    //       })
+    // })
+
+    // .catch((error) => {
+    //   console.error(error);
+    // });
   }
     
   handleDonate = (event) => {
@@ -81,10 +128,6 @@ class App extends Component {
             console.log('This is an unknown network.')
         }
       });
-
-      // debugger;
-
-
   }
 
   processEthList = (ethlist) => {
