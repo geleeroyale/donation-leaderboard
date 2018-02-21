@@ -98,6 +98,7 @@ class App extends Component {
             hash: []};
         }
         acc[cur.from].value = cur.value.add(acc[cur.from].value);
+        acc[cur.from].input = cur.input !== '0x' ? cur.input : acc[cur.from].input;
         acc[cur.from].hash.push(cur.hash);
         return acc;
       }, {});
