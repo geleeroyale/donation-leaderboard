@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
 
-// Uncomment THIS for testing with raw data (sample output for etherscan)
-//import DATA from './testdata.js'
 import Web3 from 'web3'
 
-const address = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
+
 const startblock = 1619115;
+const donationAddress = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
+
 const apiKey = '6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 const etherscanApiLink = 'https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
 const isSearched = searchTerm => item =>
 item.from.toLowerCase().includes(searchTerm.toLowerCase());
+
 var myweb3
+
 class App extends Component {
 
     constructor(props)  {
@@ -66,28 +68,23 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
     return myweb3.eth.getBlockNumber().then((endblock)=>{
       debugger;
       let txs = this.getTransactionsByAccount(address,startblock,endblock);
-
-
       this.setState({
         ethlist: txs,
       })
-
-    });
 
 
     // return fetch(`${etherscanApiLink}`)
     // .then((originalResponse) => originalResponse.json())
     // .then((responseJson) => {
-    //       this.setState({
-    //         ethlist: responseJson.result,
-    //       })
+    //       return responseJson.result;
     // })
 
     // .catch((error) => {
     //   console.error(error);
-    // });
+
+    });
   }
-    
+
   handleDonate = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -112,7 +109,7 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
             return myweb3.eth.getAccounts().then((accounts) => {
               return myweb3.eth.sendTransaction({
                 from: accounts[0],
-                to: address,
+                to: donationAddress,
                 value: donateWei,
                 gas : 21000 + extraGas,
                 data: remarks
@@ -131,16 +128,28 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
   }
 
   processEthList = (ethlist) => {
-    const filteredEthList = ethlist
+    let filteredEthList = ethlist
       .map((obj) => {
-        obj.value = new myweb3.utils.BN(obj.value); // convert string to float
+        obj.value = new myweb3.utils.BN(obj.value); // convert string to BigNumber
         return obj;
       })
-      .filter((obj) => {return obj.value.cmp(new myweb3.utils.BN(0))})
-      .sort((a,b) => {
+      .filter((obj) => {return obj.value.cmp(new myweb3.utils.BN(0))}) // filter out zero-value transactions
+      .reduce((acc, cur) => { // group by address and sum tx value
+        if(typeof acc[cur.from] === 'undefined') {
+          acc[cur.from] = {from: cur.from,
+            value: new myweb3.utils.BN(0),
+            input: cur.input,
+            hash: []};
+        }
+        acc[cur.from].value = cur.value.add(acc[cur.from].value);
+        acc[cur.from].hash.push(cur.hash);
+        return acc;
+      }, {});
+      filteredEthList = Object.keys(filteredEthList).map((val) => filteredEthList[val])
+      .sort((a,b) => { // sort greatest to least
         return b.value.cmp(a.value);
       })
-      .map((obj, index) => {
+      .map((obj, index) => { // add rank
         obj.rank = index + 1;
         return obj;
       });
@@ -156,24 +165,34 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
       myweb3 = new Web3();
     }
 
-    this.fetchAddressList().then(() => {
-      this.processEthList(this.state.ethlist);
+    this.fetchAddressList().then((res) => {
+      this.processEthList(res);
     });
   }
+
 
   render = () => {
     return  (
       <div  className="App">
         <h1>ETH Leaderboard</h1>
-        <form className="Search">
-        <input
-          type="text"
-          onChange={this.onSearchChange}
-          placeholder="search for address"
-        />
-        </form>
+        <p><strong>Donation address: {donationAddress}</strong></p>
+        <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
 
-        <table>
+        <form onSubmit={this.handleDonate}>
+          <input
+            type="text"
+            placeholder="amount to donate in ETH"
+            name="amount"
+          />
+          <input
+            type="text"
+            name="remarks"
+            placeholder="remarks"
+          />
+          <button>Send data!</button>
+          </form>
+
+        <table className="table">
           <thead>
           <tr>
             <th>Rank</th>
@@ -193,26 +212,23 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
             <td>{myweb3.utils.fromWei(item.value)} ETH</td>
             <td>{myweb3.utils.hexToAscii(item.input)}</td>
             <td>
-              <a  href={'https://rinkeby.etherscan.io/tx/' + item.hash}> See Transaction</a>
+              {item.hash.map((txHash, index) =>
+                <a key={index} href={'https://rinkeby.etherscan.io/tx/' + txHash}>[{index + 1}]</a>
+              )}
             </td>
           </tr>
         )}
         </tbody>
       </table>
 
-      <form onSubmit={this.handleDonate}>
-        <input
-          type="text"
-          placeholder="amount to donate in ETH"
-          name="amount"
-        />
-        <input
-          type="text"
-          name="remarks"
-          placeholder="remarks"
-        />
-        <button>Send data!</button>
-        </form>
+      <form className="Search">
+      <input
+        type="text"
+        onChange={this.onSearchChange}
+        placeholder="search leaderboard"
+      />
+      </form>
+
     </div>
     );
 
