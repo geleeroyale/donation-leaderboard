@@ -130,70 +130,77 @@ class App extends Component {
 
   render = () => {
     return  (
-      <div  className="App">
+      <div  className="App container-fluid">
         <h1>ETH Leaderboard</h1>
-        <p><strong>Donation address: {donationAddress}</strong></p>
-        <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
+      <div className="row">
+        <div className="col">
+          <p><strong>Donation address: {donationAddress}</strong></p>
+          <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
+        </div>
+        <div className="col">
+          <h6>Send a transaction via Metamask</h6>
+          <form onSubmit={this.handleDonate}>
+            <input
+              type="text"
+              placeholder="amount to donate in ETH"
+              name="amount"
+            />
+            <input
+              type="text"
+              name="remarks"
+              placeholder="remarks"
+            />
+            <button className="btn btn-primary">Send</button>
+            </form>
+          </div>
+        </div>
+        <div className="flex-row">
+          <table className="table">
+            <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Address</th>
+              <th>Value</th>
+              <th>Remarks</th>
+              <th>Tx Link</th>
+            </tr>
+            </thead>
+            <tbody>
 
-        <form onSubmit={this.handleDonate}>
-          <input
-            type="text"
-            placeholder="amount to donate in ETH"
-            name="amount"
-          />
-          <input
-            type="text"
-            name="remarks"
-            placeholder="remarks"
-          />
-          <button>Send data!</button>
-          </form>
+          {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
 
-        <table className="table">
-          <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Address</th>
-            <th>Value</th>
-            <th>Remarks</th>
-            <th>Tx Link</th>
-          </tr>
-          </thead>
-          <tbody>
+            <tr  key={item.hash} className="Entry">
+              <td>{item.rank} </td>
+              <td>{item.from} </td>
+              <td>{myweb3.utils.fromWei(item.value)} ETH</td>
+              <td>{myweb3.utils.hexToAscii(item.input)}</td>
+              <td>
+                {item.hash.map((txHash, index) =>
+                  <a key={index} href={'https://rinkeby.etherscan.io/tx/' + txHash}>[{index + 1}]</a>
+                )}
+              </td>
+            </tr>
+          )}
+          </tbody>
+        </table>
 
-        {this.state.ethlist.filter(isSearched(this.state.searchTerm)).map(item =>
+        <form className="Search">
+        <input
+          type="text"
+          onChange={this.onSearchChange}
+          placeholder="filter leaderboard"
+        />
+        </form>
 
-          <tr  key={item.hash} className="Entry">
-            <td>{item.rank} </td>
-            <td>{item.from} </td>
-            <td>{myweb3.utils.fromWei(item.value)} ETH</td>
-            <td>{myweb3.utils.hexToAscii(item.input)}</td>
-            <td>
-              {item.hash.map((txHash, index) =>
-                <a key={index} href={'https://rinkeby.etherscan.io/tx/' + txHash}>[{index + 1}]</a>
-              )}
-            </td>
-          </tr>
-        )}
-        </tbody>
-      </table>
-
-      <form className="Search">
-      <input
-        type="text"
-        onChange={this.onSearchChange}
-        placeholder="search leaderboard"
-      />
-      </form>
-
+      </div>
     </div>
     );
 
-  // End of render()
-  }
 
-// End of class App extends Component
-}
+  } // End of render()
+
+
+} // End of class App extends Component
 
 
 
