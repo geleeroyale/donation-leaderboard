@@ -31,9 +31,7 @@ class App extends Component {
     return fetch(`${etherscanApiLink}`)
     .then((originalResponse) => originalResponse.json())
     .then((responseJson) => {
-          this.setState({
-            ethlist: responseJson.result,
-          })
+          return responseJson.result;
     })
 
     .catch((error) => {
@@ -86,16 +84,28 @@ class App extends Component {
   }
 
   processEthList = (ethlist) => {
-    const filteredEthList = ethlist
+    let filteredEthList = ethlist
       .map((obj) => {
-        obj.value = new myweb3.utils.BN(obj.value); // convert string to float
+        obj.value = new myweb3.utils.BN(obj.value); // convert string to BigNumber
         return obj;
       })
-      .filter((obj) => {return obj.value.cmp(new myweb3.utils.BN(0))})
-      .sort((a,b) => {
+      .filter((obj) => {return obj.value.cmp(new myweb3.utils.BN(0))}) // filter out zero-value transactions
+      .reduce((acc, cur) => { // group by address and sum tx value
+        if(typeof acc[cur.from] === 'undefined') {
+          acc[cur.from] = {from: cur.from,
+            value: new myweb3.utils.BN(0),
+            input: cur.input,
+            hash: []};
+        }
+        acc[cur.from].value = cur.value.add(acc[cur.from].value);
+        acc[cur.from].hash.push(cur.hash);
+        return acc;
+      }, {});
+      filteredEthList = Object.keys(filteredEthList).map((val) => filteredEthList[val])
+      .sort((a,b) => { // sort greatest to least
         return b.value.cmp(a.value);
       })
-      .map((obj, index) => {
+      .map((obj, index) => { // add rank
         obj.rank = index + 1;
         return obj;
       });
@@ -111,10 +121,11 @@ class App extends Component {
       myweb3 = new Web3();
     }
 
-    this.fetchAddressList().then(() => {
-      this.processEthList(this.state.ethlist);
+    this.fetchAddressList().then((res) => {
+      this.processEthList(res);
     });
   }
+
 
   render = () => {
     return  (
@@ -157,7 +168,9 @@ class App extends Component {
             <td>{myweb3.utils.fromWei(item.value)} ETH</td>
             <td>{myweb3.utils.hexToAscii(item.input)}</td>
             <td>
-              <a  href={'https://rinkeby.etherscan.io/tx/' + item.hash}> See Transaction</a>
+              {item.hash.map((txHash, index) =>
+                <a key={index} href={'https://rinkeby.etherscan.io/tx/' + txHash}>[{index + 1}]</a>
+              )}
             </td>
           </tr>
         )}
