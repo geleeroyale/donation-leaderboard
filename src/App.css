@@ -1,51 +1,22 @@
-.page {
-margin: 20px;
-}
-.interactions {
-text-align: center;
-}
-.table {
-margin: 20px 0;
-}
-.table-header {
-display: flex;
-line-height: 24px;
-font-size: 16px;
-padding: 0 10px;
-justify-content: space-between;
-}
-.table-empty {
-margin: 200px;
-text-align: center;
-font-size: 16px;
-}
-.table-row {
-display: flex;
-line-height: 24px;
-white-space: nowrap;
-margin: 10px 0;
-padding: 10px;
-background: #ffffff;
-border: 1px solid #e3e3e3;
-}
-.table-header > span {
-overflow: hidden;
-text-overflow: ellipsis;
-padding: 0 5px;
-}
-.table-row > span {
-overflow: hidden;
-text-overflow: ellipsis;
-padding: 0 5px;
+* {
+  font-family: Roboto, Arial, sans-serif;
 }
 
-h1 {
-  padding: 0.5rem;
-  font-family: 400 2rem Roboto, Arial, sans-serif;
+h1, h3, h6 {
+  padding: 1rem;
+  font-family: 400 Roboto, Arial, sans-serif;
+  text-align: center;
+}
+
+h6 {
+  padding: 1rem;
+  font-family: 400 Roboto, Arial, sans-serif;
 }
 
 p {
   padding: 0.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 form {
@@ -53,10 +24,15 @@ form {
   padding: 0.5rem;
 }
 
+thead {
+    background-color: rgba(79, 147, 226, 0.7);
+}
+
 .App {
   background-image: url('./scaleth.svg');
   background-repeat: no-repeat;
   background-size: cover;
+  position: fixed;
   min-width: 100vw;
   max-width: 100vw;
   min-height: 100vh;
@@ -76,9 +52,11 @@ form {
   padding: 1rem;
 }
 
-.row {
+.row, .flex-row {
   max-width: 100vw;
+  padding-top: 1rem;
 }
+
 
 
 .Entry {
@@ -91,4 +69,18 @@ form {
   padding-bottom: 1rem;
   min-width: 40vw;
   text-align: right;
+}
+
+.typelogo {
+  width: 40vw;
+  height: auto;
+  padding: 2rem;
+  margin-left: 30vw;
+  margin-right: auto;
+}
+
+.blue-bg {
+  background-color: rgba(79, 147, 226, 0.7);
+  border-radius: 1rem;
+  color: rgb(255, 255, 255);
 }

@@ -131,13 +131,16 @@ class App extends Component {
   render = () => {
     return  (
       <div  className="App container-fluid">
-        <h1>ETH Leaderboard</h1>
+        <img src="/img/sn-type.svg" className="typelogo"/>
       <div className="row">
         <div className="col">
-          <p><strong>Donation address: {donationAddress}</strong></p>
-          <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
+          <p>Web3 Foundation and Giveth are hosting an in-person gathering on scaling solutions on <strong>March 5th & 6th in Barcelona</strong>. This application acts as donation gateway and attendee list. </p>
+          <p>March 5 is an invite-only for select devs working on immediate scaling solutions to share their insights amongst one another.</p>
+          <p>March 6 is open to DApp developers who submit a (super quick and easy) application on what they are building.</p>
+          <p>To help the organizers cover food and facilities cost donations are accepted.</p>
         </div>
-        <div className="col">
+        <div className="col blue-bg">
+          <h3>Ways to donate</h3>
           <h6>Send a transaction via Metamask</h6>
           <form onSubmit={this.handleDonate}>
             <input
@@ -152,6 +155,8 @@ class App extends Component {
             />
             <button className="btn btn-primary">Send</button>
             </form>
+            <h6>Send directly to donation address</h6>
+            <p><strong>{donationAddress}</strong></p>
           </div>
         </div>
         <div className="flex-row">
