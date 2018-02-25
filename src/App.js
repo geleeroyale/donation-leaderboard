@@ -131,9 +131,10 @@ class App extends Component {
   render = () => {
     return  (
       <div  className="App container-fluid">
-        <img src="/img/sn-type.svg" className="typelogo"/>
+
       <div className="row">
         <div className="col">
+        <img src="/img/scalingnow.svg" className="typelogo"/>
           <p>Web3 Foundation and Giveth are hosting an in-person gathering on scaling solutions on <strong>March 5th & 6th in Barcelona</strong>. This application acts as donation gateway and attendee list. </p>
           <p>March 5 is an invite-only for select devs working on immediate scaling solutions to share their insights amongst one another.</p>
           <p>March 6 is open to DApp developers who submit a (super quick and easy) application on what they are building.</p>
@@ -141,7 +142,7 @@ class App extends Component {
         </div>
         <div className="col blue-bg">
           <h3>Ways to donate</h3>
-          <h6>Send a transaction via Metamask</h6>
+          <h6>1. Send a transaction via Metamask</h6>
           <form onSubmit={this.handleDonate}>
             <input
               type="text"
@@ -155,7 +156,9 @@ class App extends Component {
             />
             <button className="btn btn-primary">Send</button>
             </form>
-            <h6>Send directly to donation address</h6>
+            <hr></hr>
+            <h6>2. Send directly to donation address</h6>
+            <img src="/img/scalingnow-qr.svg" className="qr-code"/>
             <p><strong>{donationAddress}</strong></p>
           </div>
         </div>

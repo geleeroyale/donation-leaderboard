@@ -1,5 +1,7 @@
 * {
   font-family: Roboto, Arial, sans-serif;
+  margin: 0px;
+  padding: 0px;
 }
 
 h1, h3, h6 {
@@ -14,13 +16,13 @@ h6 {
 }
 
 p {
-  padding: 0.5rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 form {
-  min-width: 40vw;
   padding: 0.5rem;
 }
 
@@ -31,11 +33,12 @@ thead {
 .App {
   background-image: url('./scaleth.svg');
   background-repeat: no-repeat;
-  background-size: cover;
-  position: fixed;
-  min-width: 100vw;
-  max-width: 100vw;
+  background-size: contain;
+  background-position: bottom;
+  position: sticky;
   min-height: 100vh;
+  padding: 0px;
+  margin: 0px;
 }
 
 .btn {
@@ -44,23 +47,22 @@ thead {
 }
 
 .container-fluid {
-  max-width: 95vw;
   padding: 0px;
+  margin: 0px;
 }
 
 .col {
+  max-width: 50vw;
   padding: 1rem;
+  margin: 0.5rem;
 }
 
 .row, .flex-row {
-  max-width: 100vw;
+  max-width: 99vw;
   padding-top: 1rem;
 }
 
-
-
 .Entry {
-  padding: 0.5rem;
   background-color: rgba(255, 255, 255, 0.80);
 }
 
@@ -72,15 +74,20 @@ thead {
 }
 
 .typelogo {
-  width: 40vw;
+  width: 50vw;
   height: auto;
   padding: 2rem;
-  margin-left: 30vw;
-  margin-right: auto;
 }
 
 .blue-bg {
-  background-color: rgba(79, 147, 226, 0.7);
-  border-radius: 1rem;
-  color: rgb(255, 255, 255);
+  color: rgba(79, 147, 226, 0.7);
+  border-radius: 4rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.qr-code {
+  width: 25vw;
+  height: auto;
+  padding: 0.5rem;
 }
