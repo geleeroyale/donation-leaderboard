@@ -64,14 +64,14 @@ class App extends Component {
     }.bind(this);
     ws.onmessage = function(evt) {
       let eventData = JSON.parse(evt.data);
-      console.log(eventData);   
+      console.log(eventData);
       if (eventData.event === "txlist"){
         let newTransactionsArray = this.state.transactionsArray.concat(eventData.result);
         this.setState({
           transactionsArray: newTransactionsArray
         }, () => {
           this.processEthList(newTransactionsArray);
-        });        
+        });
       }
 
     }.bind(this);
@@ -172,7 +172,8 @@ class App extends Component {
       this.setState({
         candonate: true
       });
-    } else {
+    }
+    else {
       // I cannot do transactions now.
       this.setState({
         candonate: false
