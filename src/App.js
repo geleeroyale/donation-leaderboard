@@ -219,8 +219,6 @@ class App extends Component {
           <p>March 5 is an invite-only for select devs working on immediate scaling solutions to share their insights amongst one another.</p>
           <p>March 6 is open to DApp developers who submit a (super quick and easy) application on what they are building.</p>
           <p>To help the organizers cover food and facilities cost donations are accepted.</p>
-          <p>socketconnected: {JSON.stringify(this.state.socketconnected)}</p>
-          <p>donateenabled: {JSON.stringify(this.state.donateenabled)}</p>
         </div>
         <div className="col blue-bg">
           <h3>Ways to donate</h3>
