@@ -98,36 +98,54 @@ class App extends Component {
   }
 
   handleDonate = (event) => {
-    event.preventDefault();
-    const form = event.target;
-    let donateWei = new myweb3.utils.BN(myweb3.utils.toWei(form.elements['amount'].value, 'ether'));
-    let remarks = myweb3.utils.toHex(form.elements['remarks'].value);
-    let extraGas = form.elements['remarks'].value.length * 68;
+      event.preventDefault();
+      const form = event.target;
+      let donateWei = new myweb3.utils.BN(myweb3.utils.toWei(form.elements['amount'].value, 'ether'));
+      let remarks = myweb3.utils.toHex(form.elements['remarks'].value);
+      let extraGas = form.elements['remarks'].value.length * 68;
 
-    myweb3.eth.net.getId()
-      .then((netId) => {
-        switch (netId) {
-          case 1:
-            console.log('This is mainnet');
-            return myweb3.eth.getAccounts().then((accounts) => {
-              return myweb3.eth.sendTransaction({
-                from: accounts[0],
-                to: donationAddress,
-                value: donateWei,
-                gas : 21000 + extraGas,
-                data: remarks
-              }).catch((e)=>{
-                console.log(e);
-              });
-            });
-          }else{
-            console.log('no donation allowed on this network');
-            this.setState({
-              donateenabled: false,
-            });
+      myweb3.eth.net.getId()
+        .then((netId) => {
+          switch (netId) {
+            case 1:
+              console.log('Metamask is on mainnet')
+              break
+            case 2:
+              console.log('Metamask is on the deprecated Morden test network.')
+              break
+            case 3:
+              console.log('Metamask is on the ropsten test network.')
+              break
+            case 4:
+              console.log('Metamask is on the Rinkeby test network.');
+              break
+            case 42:
+              console.log('Metamask is on the Kovan test network.')
+              break
+            default:
+              console.log('Metamask is on an unknown network.')
           }
-      });
-  }
+          if (netId === donationNetworkID){
+              return myweb3.eth.getAccounts().then((accounts) => {
+                return myweb3.eth.sendTransaction({
+                  from: accounts[0],
+                  to: donationAddress,
+                  value: donateWei,
+                  gas : 21000 + extraGas,
+                  data: remarks
+                }).catch((e)=>{
+                  console.log(e);
+                });
+              });
+            }else{
+              console.log('no donation allowed on this network');
+              this.setState({
+                donateenabled: false,
+              });
+            }
+        });
+    }
+
 
   processEthList = (ethlist) => {
     let filteredEthList = ethlist
