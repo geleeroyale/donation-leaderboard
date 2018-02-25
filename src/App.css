@@ -59,7 +59,7 @@ thead {
 
 .row, .flex-row {
   max-width: 99vw;
-  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .Entry {
