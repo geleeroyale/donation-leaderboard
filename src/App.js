@@ -3,17 +3,15 @@ import './App.css';
 
 import Web3 from 'web3'
 
-
-const startblock = 1619115;
-const donationAddress = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
-
-const apiKey = '6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
-const etherscanApiLink = 'https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
+const donationAddress = '0x9cb8921aa376219950ba134c15d8f5ee2769c599';
+const donationAddress_e = '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819';
+const donationNetworkID = 1;  // make sure donations only go through on this network.
+const etherscanApiLink = 'https://api.etherscan.io/api?module=account&action=txlist&address='+donationAddress+'&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
 const isSearched = searchTerm => item =>
 item.from.toLowerCase().includes(searchTerm.toLowerCase());
 
-var myweb3
+var myweb3;
 
 class App extends Component {
 
@@ -23,65 +21,78 @@ class App extends Component {
     this.state = {
       ethlist: [],
       searchTerm: '',
+      donateenabled: true,
+      socketconnected: false
     };
   }
 
   onSearchChange = (event) => {
-    this.setState({ searchTerm: event.target.value });
+    this.setState({
+      searchTerm: event.target.value
+    });
   }
 
+  subscribe = (address) => {
+    let ws = new WebSocket('wss://socket.etherscan.io/wshandler');
 
-getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
-  if (endBlockNumber == null) {
-    endBlockNumber = myweb3.eth.blockNumber;
-    console.log("Using endBlockNumber: " + endBlockNumber);
-  }
-  if (startBlockNumber == null) {
-    startBlockNumber = endBlockNumber - 1000;
-    console.log("Using startBlockNumber: " + startBlockNumber);
-  }
-  console.log("Searching for transactions to/from account \"" + myaccount + "\" within blocks "  + startBlockNumber + " and " + endBlockNumber);
-
-  let txs = [];
-  for (var i = startBlockNumber; i <= endBlockNumber; i++) {
-    if (i % 1000 == 0) {
-      console.log("Searching block " + i);
-    }
-    var block = myweb3.eth.getBlock(i, true);
-    if (block != null && block.transactions != null) {
-      block.transactions.forEach( function(e) {
-        if (myaccount == "*" || myaccount == e.from || myaccount == e.to) {
-          txs.push(e);
+    function pinger(ws) {
+      var timer = setInterval(function() {
+        if (ws.readyState === 1) {
+          ws.send(JSON.stringify({
+            event: "ping"
+          }));
         }
-      })
+      }, 20000);
+      return {
+        stop: function() {
+          clearInterval(timer);
+        }
+      };
     }
+
+    ws.onopen = function() {
+      this.setState({
+        socketconnected: true
+      });
+      pinger(ws);
+      ws.send(JSON.stringify({
+        event: "txlist",
+        address: address
+      }));
+
+    }.bind(this);
+    ws.onmessage = function(evt) {
+      let eventData = JSON.parse(evt.data);
+      console.log(eventData);   
+      if (eventData.event === "txlist"){
+        let newTransactionsArray = this.state.transactionsArray.concat(eventData.result);
+        this.setState({
+          transactionsArray: newTransactionsArray
+        }, () => {
+          this.processEthList(newTransactionsArray);
+        });        
+      }
+
+    }.bind(this);
+    ws.onerror = function(evt) {
+      this.setState({
+        socketerror: evt.message,
+        socketconnected: false
+      });
+    }.bind(this);
+    ws.onclose = function() {
+      this.setState({
+        socketerror: 'socket closed',
+        socketconnected: false
+      });
+    }.bind(this);
   }
 
-  return txs;
-
-
-}
-
-
-  fetchAddressList = () => {
-
-    return myweb3.eth.getBlockNumber().then((endblock)=>{
-      debugger;
-      let txs = this.getTransactionsByAccount(address,startblock,endblock);
-      this.setState({
-        ethlist: txs,
-      })
-
-
-    // return fetch(`${etherscanApiLink}`)
-    // .then((originalResponse) => originalResponse.json())
-    // .then((responseJson) => {
-    //       return responseJson.result;
-    // })
-
-    // .catch((error) => {
-    //   console.error(error);
-
+  getAccountData = () => {
+    return fetch(`${etherscanApiLink}`)
+    .then((originalResponse) => originalResponse.json())
+    .then((responseJson) => {
+      return responseJson.result;
     });
   }
 
@@ -96,16 +107,24 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
       .then((netId) => {
         switch (netId) {
           case 1:
-            console.log('This is mainnet')
+            console.log('Metamask is on mainnet')
             break
           case 2:
-            console.log('This is the deprecated Morden test network.')
+            console.log('Metamask is on the deprecated Morden test network.')
             break
           case 3:
-            console.log('This is the ropsten test network.')
+            console.log('Metamask is on the ropsten test network.')
             break
           case 4:
-            console.log('This is the Rinkeby test network.');
+            console.log('Metamask is on the Rinkeby test network.');
+            break
+          case 42:
+            console.log('Metamask is on the Kovan test network.')
+            break
+          default:
+            console.log('Metamask is on an unknown network.')
+        }
+        if (netId === donationNetworkID){
             return myweb3.eth.getAccounts().then((accounts) => {
               return myweb3.eth.sendTransaction({
                 from: accounts[0],
@@ -117,13 +136,12 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
                 console.log(e);
               });
             });
-            break
-          case 42:
-            console.log('This is the Kovan test network.')
-            break
-          default:
-            console.log('This is an unknown network.')
-        }
+          }else{
+            console.log('no donation allowed on this network');
+            this.setState({
+              donateenabled: false,
+            });
+          }
       });
   }
 
@@ -133,44 +151,59 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
         obj.value = new myweb3.utils.BN(obj.value); // convert string to BigNumber
         return obj;
       })
-      .filter((obj) => {return obj.value.cmp(new myweb3.utils.BN(0))}) // filter out zero-value transactions
+      .filter((obj) => {
+        return obj.value.cmp(new myweb3.utils.BN(0))
+      }) // filter out zero-value transactions
       .reduce((acc, cur) => { // group by address and sum tx value
-        if(typeof acc[cur.from] === 'undefined') {
-          acc[cur.from] = {from: cur.from,
+        if (typeof acc[cur.from] === 'undefined') {
+          acc[cur.from] = {
+            from: cur.from,
             value: new myweb3.utils.BN(0),
             input: cur.input,
-            hash: []};
+            hash: []
+          };
         }
         acc[cur.from].value = cur.value.add(acc[cur.from].value);
         acc[cur.from].input = cur.input !== '0x' && cur.input !== '0x00' ? cur.input : acc[cur.from].input;
         acc[cur.from].hash.push(cur.hash);
         return acc;
       }, {});
-      filteredEthList = Object.keys(filteredEthList).map((val) => filteredEthList[val])
-      .sort((a,b) => { // sort greatest to least
+    filteredEthList = Object.keys(filteredEthList).map((val) => filteredEthList[val])
+      .sort((a, b) => { // sort greatest to least
         return b.value.cmp(a.value);
       })
       .map((obj, index) => { // add rank
         obj.rank = index + 1;
         return obj;
       });
-    return this.setState({ethlist: filteredEthList});
-  }
-
-  componentDidMount = () => {
-
-    if(typeof window.web3 !== "undefined" && typeof window.web3.currentProvider !== "undefined") {
-      myweb3 = new Web3(window.web3.currentProvider);
-      myweb3.eth.defaultAccount = window.web3.eth.defaultAccount;
-    } else {
-      myweb3 = new Web3();
-    }
-
-    this.fetchAddressList().then((res) => {
-      this.processEthList(res);
+    return this.setState({
+      ethlist: filteredEthList
     });
   }
 
+  componentDidMount = () => {
+    if (typeof window.web3 !== "undefined" && typeof window.web3.currentProvider !== "undefined") {
+      myweb3 = new Web3(window.web3.currentProvider);
+      myweb3.eth.defaultAccount = window.web3.eth.defaultAccount;
+      this.setState({
+        candonate: true
+      });
+    } else {
+      // I cannot do transactions now.
+      this.setState({
+        candonate: false
+      });
+    }
+
+    this.getAccountData().then((res) => {
+      this.setState({
+        transactionsArray: res
+      }, () => {
+        this.processEthList(res);
+        this.subscribe(donationAddress_e);
+      });
+    });
+  }
 
   render = () => {
     return  (
@@ -180,6 +213,9 @@ getTransactionsByAccount = (myaccount, startBlockNumber, endBlockNumber) => {
         <div className="col">
           <p><strong>Donation address: {donationAddress}</strong></p>
           <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
+          <h2>TODO : use these variables in the template</h2>
+          <p>socketconnected: {JSON.stringify(this.state.socketconnected)}</p>
+          <p>donateenabled: {JSON.stringify(this.state.donateenabled)}</p>
         </div>
         <div className="col">
           <h6>Send a transaction via Metamask</h6>
