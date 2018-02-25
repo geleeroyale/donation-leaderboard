@@ -4,7 +4,7 @@ import './App.css';
 import Web3 from 'web3'
 
 const donationAddress = '0x9cb8921aa376219950ba134c15d8f5ee2769c599';
-const donationAddress_e = '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819';
+//const donationAddress_e = '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819';
 const donationNetworkID = 1;  // make sure donations only go through on this network.
 const etherscanApiLink = 'https://api.etherscan.io/api?module=account&action=txlist&address='+donationAddress+'&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
@@ -200,7 +200,7 @@ class App extends Component {
         transactionsArray: res
       }, () => {
         this.processEthList(res);
-        this.subscribe(donationAddress_e);
+        this.subscribe(donationAddress);
       });
     });
   }
