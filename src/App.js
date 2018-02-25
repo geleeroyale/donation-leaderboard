@@ -4,6 +4,7 @@ import './App.css';
 import Web3 from 'web3'
 
 const donationAddress = '0x9cb8921aa376219950ba134c15d8f5ee2769c599';
+
 //const donationAddress_e = '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819';
 const donationNetworkID = 1;  // make sure donations only go through on this network.
 const etherscanApiLink = 'https://api.etherscan.io/api?module=account&action=txlist&address='+donationAddress+'&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
@@ -107,24 +108,7 @@ class App extends Component {
       .then((netId) => {
         switch (netId) {
           case 1:
-            console.log('Metamask is on mainnet')
-            break
-          case 2:
-            console.log('Metamask is on the deprecated Morden test network.')
-            break
-          case 3:
-            console.log('Metamask is on the ropsten test network.')
-            break
-          case 4:
-            console.log('Metamask is on the Rinkeby test network.');
-            break
-          case 42:
-            console.log('Metamask is on the Kovan test network.')
-            break
-          default:
-            console.log('Metamask is on an unknown network.')
-        }
-        if (netId === donationNetworkID){
+            console.log('This is mainnet');
             return myweb3.eth.getAccounts().then((accounts) => {
               return myweb3.eth.sendTransaction({
                 from: accounts[0],
@@ -208,17 +192,20 @@ class App extends Component {
   render = () => {
     return  (
       <div  className="App container-fluid">
-        <h1>ETH Leaderboard</h1>
+
       <div className="row">
         <div className="col">
-          <p><strong>Donation address: {donationAddress}</strong></p>
-          <p><strong>This application uses the Rinkeby Testnetwork. Do not send real ether</strong></p>
-          <h2>TODO : use these variables in the template</h2>
+        <img src="/img/scalingnow.svg" className="typelogo"/>
+          <p>Web3 Foundation and Giveth are hosting an in-person gathering on scaling solutions on <strong>March 5th & 6th in Barcelona</strong>. This application acts as donation gateway and attendee list. </p>
+          <p>March 5 is an invite-only for select devs working on immediate scaling solutions to share their insights amongst one another.</p>
+          <p>March 6 is open to DApp developers who submit a (super quick and easy) application on what they are building.</p>
+          <p>To help the organizers cover food and facilities cost donations are accepted.</p>
           <p>socketconnected: {JSON.stringify(this.state.socketconnected)}</p>
           <p>donateenabled: {JSON.stringify(this.state.donateenabled)}</p>
         </div>
-        <div className="col">
-          <h6>Send a transaction via Metamask</h6>
+        <div className="col blue-bg">
+          <h3>Ways to donate</h3>
+          <h6>1. Send a transaction via Metamask</h6>
           <form onSubmit={this.handleDonate}>
             <input
               type="text"
@@ -232,6 +219,10 @@ class App extends Component {
             />
             <button className="btn btn-primary">Send</button>
             </form>
+            <hr></hr>
+            <h6>2. Send directly to donation address</h6>
+            <img src="/img/scalingnow-qr.svg" className="qr-code"/>
+            <p><strong>{donationAddress}</strong></p>
           </div>
         </div>
         <div className="flex-row">
@@ -256,7 +247,7 @@ class App extends Component {
               <td>{myweb3.utils.hexToAscii(item.input)}</td>
               <td>
                 {item.hash.map((txHash, index) =>
-                  <a key={index} href={'https://rinkeby.etherscan.io/tx/' + txHash}>[{index + 1}]</a>
+                  <a key={index} href={'https://etherscan.io/tx/' + txHash}>[{index + 1}]</a>
                 )}
               </td>
             </tr>
