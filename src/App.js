@@ -3,9 +3,9 @@ import './App.css';
 
 import Web3 from 'web3'
 
-const donationAddress = '0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3';
+const donationAddress = '0x9cb8921aa376219950ba134c15d8f5ee2769c599';
 const apiKey = '6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
-const etherscanApiLink = 'https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x1D348f7721Ccc4beA2c4292cea27c94B5883EBd3&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
+const etherscanApiLink = 'https://api.etherscan.io/api?module=account&action=txlist&address=0x9cb8921aa376219950ba134c15d8f5ee2769c599&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
 const isSearched = searchTerm => item =>
 item.from.toLowerCase().includes(searchTerm.toLowerCase());
@@ -49,16 +49,7 @@ class App extends Component {
       .then((netId) => {
         switch (netId) {
           case 1:
-            console.log('This is mainnet')
-            break
-          case 2:
-            console.log('This is the deprecated Morden test network.')
-            break
-          case 3:
-            console.log('This is the ropsten test network.')
-            break
-          case 4:
-            console.log('This is the Rinkeby test network.');
+            console.log('This is mainnet');
             return myweb3.eth.getAccounts().then((accounts) => {
               return myweb3.eth.sendTransaction({
                 from: accounts[0],
@@ -69,6 +60,15 @@ class App extends Component {
                 console.log(e);
               });
             });
+            break
+          case 2:
+            console.log('This is the deprecated Morden test network.')
+            break
+          case 3:
+            console.log('This is the ropsten test network.')
+            break
+          case 4:
+            console.log('This is the Rinkeby test network.')
             break
           case 42:
             console.log('This is the Kovan test network.')
@@ -181,7 +181,7 @@ class App extends Component {
               <td>{myweb3.utils.hexToAscii(item.input)}</td>
               <td>
                 {item.hash.map((txHash, index) =>
-                  <a key={index} href={'https://rinkeby.etherscan.io/tx/' + txHash}>[{index + 1}]</a>
+                  <a key={index} href={'https://etherscan.io/tx/' + txHash}>[{index + 1}]</a>
                 )}
               </td>
             </tr>
