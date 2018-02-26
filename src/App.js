@@ -212,17 +212,18 @@ class App extends Component {
     return  (
       <div  className="App container-fluid">
 
-      <div className="row">
-        <div className="col">
+      <div className="row justify-content-around">
+        <div className="col introColumn">
         <img src="/img/scalingnow.svg" className="typelogo"/>
-          <p>Web3 Foundation and Giveth are hosting an in-person gathering on scaling solutions on <strong>March 5th & 6th in Barcelona</strong>. This application acts as donation gateway and attendee list. </p>
-          <p>March 5 is an invite-only for select devs working on immediate scaling solutions to share their insights amongst one another.</p>
-          <p>March 6 is open to DApp developers who submit a (super quick and easy) application on what they are building.</p>
-          <p>To help the organizers cover food and facilities cost donations are accepted.</p>
+          <p><a href="https://web3.foundation/">Web3 Foundation</a> and <a href="https//giveth.io">Giveth</a> are hosting an in-person gathering on scaling solutions on <strong>March 5th & 6th in Barcelona</strong>. This application acts as donation gateway and attendee list. </p>
+          <p><strong>March 5th</strong> is an invite-only for select devs working on immediate scaling solutions to share their insights amongst one another.</p>
+          <p><strong>March 6th</strong> is open to DApp developers who submit a (super quick and easy) <a href="https://docs.google.com/forms/d/1tMq8AamiQ2PI0zulo_jxIV4Ef9h0D9DjrgjfSK70I0M/viewform?edit_requested=true">application</a> on what they are building.</p>
+          <p>To help the organizers cover food and facilities cost donations are collected. This application provides a fun way for attendees to register for the event, while incentivizing giving donations.</p>
+          <p>Adding a remark to your donation is easy! Just use the MetaMask form on the right if you donated from a MetaMask wallet address or encode a string to hex and send it as input to the donation address.</p>
         </div>
-        <div className="col blue-bg">
-          <h3>Ways to donate</h3>
-          <h6>1. Send a transaction via Metamask</h6>
+        <div className="col donationColumn">
+          <h2>Ways to donate</h2>
+          <h4>1. Send a transaction via Metamask</h4>
           <form onSubmit={this.handleDonate}>
             <input
               type="text"
@@ -237,7 +238,7 @@ class App extends Component {
             <button className="btn btn-primary">Send</button>
             </form>
             <hr></hr>
-            <h6>2. Send directly to donation address</h6>
+            <h4>2. Send directly to donation address</h4>
             <img src="/img/scalingnow-qr.svg" className="qr-code"/>
             <p><strong>{donationAddress}</strong></p>
           </div>
