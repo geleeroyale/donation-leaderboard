@@ -5,7 +5,7 @@ import Web3 from 'web3'
 
 const donationAddress = '0x9cb8921aa376219950ba134c15d8f5ee2769c599';
 
-//const donationAddress_e = '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819';
+//const donationAddress_e = '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819'; For Testnet
 const donationNetworkID = 1;  // make sure donations only go through on this network.
 const etherscanApiLink = 'https://api.etherscan.io/api?module=account&action=txlist&address='+donationAddress+'&startblock=0&endblock=99999999&sort=asc&apikey=6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S';
 
@@ -215,30 +215,32 @@ class App extends Component {
       <div className="row justify-content-around">
         <div className="col introColumn">
         <img src="/img/scalingnow.svg" className="typelogo"/>
-          <p><a href="https://web3.foundation/">Web3 Foundation</a> and <a href="https//giveth.io">Giveth</a> are hosting an in-person gathering on scaling solutions on <strong>March 5th & 6th in Barcelona</strong>. This application acts as donation gateway and attendee list. </p>
-          <p><strong>March 5th</strong> is an invite-only for select devs working on immediate scaling solutions to share their insights amongst one another.</p>
-          <p><strong>March 6th</strong> is open to DApp developers who submit a (super quick and easy) <a href="https://docs.google.com/forms/d/1tMq8AamiQ2PI0zulo_jxIV4Ef9h0D9DjrgjfSK70I0M/viewform?edit_requested=true">application</a> on what they are building.</p>
-          <p>To help the organizers cover food and facilities cost donations are collected. This application provides a fun way for attendees to register for the event, while incentivizing giving donations.</p>
-          <p>Adding a remark to your donation is easy! Just use the MetaMask form on the right if you donated from a MetaMask wallet address or encode a string to hex and send it as input to the donation address.</p>
+          <p><a href="https://web3.foundation/">Web3 Foundation</a> and <a href="https//giveth.io">Giveth</a> are hosting an in-person gathering exploring Ethereum Scaling Solutions on <strong>March 5th & 6th in Barcelona</strong>. This DApp acts as donation gateway and attendee list.</p>
+          <p><strong>March 5th</strong> is an invite-only event for select devs working on immediate scaling solutions to share their insights amongst one another.
+          </p>
+          <p><strong>March 6th</strong> is open to DApp developers who submit a <a href="https://docs.google.com/forms/d/1tMq8AamiQ2PI0zulo_jxIV4Ef9h0D9DjrgjfSK70I0M/viewform?edit_requested=true">super quick & easy form</a>, each attendee must donate from a <strong>unique</strong> address so that we can count how many Tapas we need as requested in the form .</p>
+          <p>We encourage you to open your wallets and let the donations flow through. Your donation covers the costs of venue rentals and food expenses. We aren’t trying to force some cellophane wrapped sad-wiches on you - this is Barcelona, we’ve already found the best Tapas and Cava joints so we can collaborate over real Catalan culture.</p>
+          <p>If we don’t receive enough donations to cover the event, the restaurants will be BYOETH, please be generous, because as of Feb 27th <strong>we are on pace to only cover a small percentage of the cost of the venues :-(</strong></p>
+          <p>The ETH raised will be transparently tracked using the <a href="https://alpha.giveth.io/campaigns/ap6KXg8iJwwUAxBY">Giveth Platform</a> And if any donations are received beyond the costs detailed in the ScalingNow! Giveth Campaign, they will be split equally between Giveth and the Web3 Foundation to help make more magic like this happen.</p>
         </div>
         <div className="col donationColumn">
-          <h2>Ways to donate</h2>
-          <h4>1. Send a transaction via Metamask</h4>
+          <h2>2 Ways to Donate</h2>
+          <h4>1. Publicly: Send a transaction via Metamask with your Team Name as a remark </h4>
           <form onSubmit={this.handleDonate}>
             <input
               type="text"
-              placeholder="amount to donate in ETH"
+              placeholder="ETH to donate"
               name="amount"
             />
             <input
               type="text"
-              name="remarks"
               placeholder="remarks"
+              name="remarks"
             />
             <button className="btn btn-primary">Send</button>
             </form>
             <hr></hr>
-            <h4>2. Send directly to donation address</h4>
+            <h4>2. Privately: Send directly to the donation address</h4>
             <img src="/img/scalingnow-qr.svg" className="qr-code"/>
             <p><strong>{donationAddress}</strong></p>
           </div>
