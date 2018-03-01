@@ -232,7 +232,7 @@ class App extends Component {
           <p>We encourage you to open your wallets and let the donations flow through. Your donation covers the costs of venue rentals and food expenses. We aren’t trying to force some cellophane wrapped sad-wiches on you - this is Barcelona, we’ve already found the best Tapas and Cava joints so we can collaborate over real Catalan culture.</p>
           <p>If we don’t receive enough donations to cover the event, the restaurants will be BYOETH, please be generous, because as of Feb 27th <strong>we are on pace to only cover a small percentage of the cost of the venues :-(</strong></p>
           <p>The ETH raised will be transparently tracked using the <a href="https://alpha.giveth.io/campaigns/ap6KXg8iJwwUAxBY">Giveth Platform</a> And if any donations are received beyond the costs detailed in the ScalingNow! Giveth Campaign, they will be split equally between Giveth and the Web3 Foundation to help make more magic like this happen.</p>
-          <p>Total amount collected: <b>{this.state.totalAmount} ETH</b></p>
+          <p>Amount donated: <b>{this.state.totalAmount} ETH</b></p>
           </div>
         <div className="col donationColumn">
           <h2>Ways to Donate</h2>
