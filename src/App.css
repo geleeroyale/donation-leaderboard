@@ -4,21 +4,39 @@
   padding: 0px;
 }
 
-h1, h3, h6 {
+a {
+  color: rgb(79, 147, 226);
+  text-decoration: underline;
+}
+
+h1 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1, h2 {
   padding: 1rem;
-  font-family: 400 Roboto, Arial, sans-serif;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 200;
   text-align: center;
 }
 
-h6 {
-  padding: 1rem;
-  font-family: 400 Roboto, Arial, sans-serif;
+h4, h6 {
+  padding: 0.5rem;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 200;
+  text-align: center;
+}
+
+hr {
+  background-color: white;
 }
 
 p {
+  display: block;
   padding-top: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   padding-bottom: 0.5rem;
 }
 
@@ -53,13 +71,12 @@ thead {
 
 .col {
   max-width: 50vw;
-  padding: 1rem;
-  margin: 0.5rem;
+  margin: 0rem, 2.5rem, 2rem, 2.5rem;
 }
 
 .row, .flex-row {
   max-width: 99vw;
-  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .Entry {
@@ -76,14 +93,21 @@ thead {
 .typelogo {
   width: 50vw;
   height: auto;
-  padding: 2rem;
+  padding: 0rem 2rem 2rem 2rem;
 }
 
-.blue-bg {
-  color: rgba(79, 147, 226, 0.7);
+.donationColumn {
+  background-color: rgba(79, 147, 226, 0.7);
+  color: white;
+  margin-top: auto;
+  margin-bottom: auto;
   border-radius: 4rem;
   justify-content: center;
   text-align: center;
+}
+
+.introColumn {
+
 }
 
 .qr-code {
