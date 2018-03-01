@@ -70,8 +70,8 @@ thead {
 }
 
 .col {
-  max-width: 50vw;
-  margin: 0rem, 2.5rem, 2rem, 2.5rem;
+  /*max-width: 50vw;*/
+  margin: 2rem, 2.5rem, 2rem, 2.5rem;
 }
 
 .row, .flex-row {
@@ -104,6 +104,10 @@ thead {
   border-radius: 4rem;
   justify-content: center;
   text-align: center;
+  padding-top: 0.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 0.5rem;
 }
 
 .introColumn {

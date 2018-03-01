@@ -23,7 +23,8 @@ class App extends Component {
       ethlist: [],
       searchTerm: '',
       donateenabled: true,
-      socketconnected: false
+      socketconnected: false,
+      totalAmount: 0,
     };
   }
 
@@ -148,6 +149,7 @@ class App extends Component {
 
 
   processEthList = (ethlist) => {
+    let totalAmount = new myweb3.utils.BN(0);
     let filteredEthList = ethlist
       .map((obj) => {
         obj.value = new myweb3.utils.BN(obj.value); // convert string to BigNumber
@@ -157,6 +159,10 @@ class App extends Component {
         return obj.value.cmp(new myweb3.utils.BN(0))
       }) // filter out zero-value transactions
       .reduce((acc, cur) => { // group by address and sum tx value
+        if (cur.isError !== "0"){
+          // tx was not successful - skip it.
+          return acc;
+        }
         if (typeof acc[cur.from] === 'undefined') {
           acc[cur.from] = {
             from: cur.from,
@@ -168,6 +174,7 @@ class App extends Component {
         acc[cur.from].value = cur.value.add(acc[cur.from].value);
         acc[cur.from].input = cur.input !== '0x' && cur.input !== '0x00' ? cur.input : acc[cur.from].input;
         acc[cur.from].hash.push(cur.hash);
+        totalAmount = totalAmount.add(acc[cur.from].value);
         return acc;
       }, {});
     filteredEthList = Object.keys(filteredEthList).map((val) => filteredEthList[val])
@@ -179,7 +186,8 @@ class App extends Component {
         return obj;
       });
     return this.setState({
-      ethlist: filteredEthList
+      ethlist: filteredEthList,
+      totalAmount: parseFloat(myweb3.utils.fromWei(totalAmount)).toFixed(2),
     });
   }
 
@@ -196,6 +204,7 @@ class App extends Component {
       this.setState({
         candonate: false
       });
+      myweb3 = new Web3();
     }
 
     this.getAccountData().then((res) => {
@@ -209,6 +218,7 @@ class App extends Component {
   }
 
   render = () => {
+     const candonate = this.state.candonate;
     return  (
       <div  className="App container-fluid">
 
@@ -222,10 +232,14 @@ class App extends Component {
           <p>We encourage you to open your wallets and let the donations flow through. Your donation covers the costs of venue rentals and food expenses. We aren’t trying to force some cellophane wrapped sad-wiches on you - this is Barcelona, we’ve already found the best Tapas and Cava joints so we can collaborate over real Catalan culture.</p>
           <p>If we don’t receive enough donations to cover the event, the restaurants will be BYOETH, please be generous, because as of Feb 27th <strong>we are on pace to only cover a small percentage of the cost of the venues :-(</strong></p>
           <p>The ETH raised will be transparently tracked using the <a href="https://alpha.giveth.io/campaigns/ap6KXg8iJwwUAxBY">Giveth Platform</a> And if any donations are received beyond the costs detailed in the ScalingNow! Giveth Campaign, they will be split equally between Giveth and the Web3 Foundation to help make more magic like this happen.</p>
-        </div>
+          <p>Amount donated: <b>{this.state.totalAmount} ETH</b></p>
+          </div>
         <div className="col donationColumn">
-          <h2>2 Ways to Donate</h2>
-          <h4>1. Publicly: Send a transaction via Metamask with your Team Name as a remark </h4>
+          <h2>Ways to Donate</h2>
+          {candonate ? (
+          <div>
+          <h4>Publicly: Send a transaction via Metamask with your Team Name as a remark </h4>
+
           <form onSubmit={this.handleDonate}>
             <input
               type="text"
@@ -239,8 +253,10 @@ class App extends Component {
             />
             <button className="btn btn-primary">Send</button>
             </form>
+            </div>
+            ):(<br/>)}
             <hr></hr>
-            <h4>2. Privately: Send directly to the donation address</h4>
+            <h4>Privately: Send directly to the donation address</h4>
             <img src="/img/scalingnow-qr.svg" className="qr-code"/>
             <p><strong>{donationAddress}</strong></p>
           </div>
