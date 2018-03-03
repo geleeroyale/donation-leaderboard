@@ -224,9 +224,9 @@ class App extends Component {
     return  (
       <div  className="App container-fluid">
 
-      <div className="row justify-content-around">
-        <div className="col introColumn">
-        <img src="/img/scalingnow.svg" className="typelogo"/>
+      <div className="flex-row d-flex justify-content-around">
+        <div className="flex-column introColumn">
+        <img src="/img/scalingnow.png" className="typelogo img-fluid"/>
           <p><a href="https://web3.foundation/">Web3 Foundation</a> and <a href="https//giveth.io">Giveth</a> are hosting an in-person gathering exploring Ethereum Scaling Solutions on <strong>March 5th & 6th in Barcelona</strong>. This DApp acts as donation gateway and attendee list.</p>
           <p><strong>March 5th</strong> is an invite-only event for select devs working on immediate scaling solutions to share their insights amongst one another.
           </p>
@@ -236,8 +236,8 @@ class App extends Component {
           <p>The ETH raised will be transparently tracked using the <a href="https://alpha.giveth.io/campaigns/ap6KXg8iJwwUAxBY">Giveth Platform</a> And if any donations are received beyond the costs detailed in the ScalingNow! Giveth Campaign, they will be split equally between Giveth and the Web3 Foundation to help make more magic like this happen.</p>
           <p>Amount donated: <b>{this.state.totalAmount} ETH</b></p>
           </div>
-        <div className="col donationColumn">
-          <h2>Ways to Donate</h2>
+        <div className="flex-column donationColumn">
+          <img src="/img/ways-to-donate.svg" className="typelogo img-fluid"/>
           {candonate ? (
           <div>
           <h4>Publicly: Send a transaction via Metamask with your Team Name as a remark </h4>
@@ -260,10 +260,12 @@ class App extends Component {
             <hr></hr>
             <h4>Privately: Send directly to the donation address</h4>
             <img src="/img/scalingnow-qr.svg" className="qr-code"/>
-            <p><strong>{donationAddress}</strong></p>
+            <div className="word-wrap"><strong>{donationAddress}</strong></div>
           </div>
         </div>
-        <div className="flex-row">
+
+
+        <div className="flex-column leaderboard">
           <table className="table">
             <thead>
             <tr>
