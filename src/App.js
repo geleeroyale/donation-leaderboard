@@ -222,12 +222,19 @@ class App extends Component {
   render = () => {
      const candonate = this.state.candonate;
 
-     let responsiveness = css({
+     const responsiveness = css({
        '@media(max-width: 700px)':
        {
         'flex-wrap': 'wrap'
         }
-  })
+      })
+
+      const hiddenOnMobile = css({
+        '@media(max-width: 700px)':
+        {
+         display: 'none'
+         }
+       })
 
     return  (
       <div  className="App container-fluid">
@@ -262,9 +269,9 @@ class App extends Component {
           <img src="/img/ways-to-donate.svg" className="typelogo img-fluid"/>
           {candonate ? (
           <div>
-          <h4>Publicly: Send a transaction via Metamask with your Team Name as a remark </h4>
+          <h4 {...hiddenOnMobile}>Publicly: Send a transaction via Metamask with your Team Name as a remark </h4>
 
-          <form onSubmit={this.handleDonate}>
+          <form {...hiddenOnMobile} onSubmit={this.handleDonate}>
             <input
               type="text"
               placeholder="ETH to donate"
