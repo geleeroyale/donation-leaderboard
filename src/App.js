@@ -226,7 +226,7 @@ class App extends Component {
 
       <div className="flex-row d-flex justify-content-around">
         <div className="flex-column introColumn">
-        <img src="/img/scalingnow.png" className="typelogo img-fluid"/>
+        <img src="/img/scalingnow.png" className="typelogo img-fluid" alt="scaling now logo"/>
           <p><a href="https://web3.foundation/">Web3 Foundation</a> and <a href="https://giveth.io">Giveth</a> are hosting an in-person gathering exploring Ethereum Scaling Solutions on <strong>March 5th & 6th in Barcelona</strong>. This DApp acts as donation gateway and attendee list.</p>
           <p><strong>March 5th</strong> is an invite-only event for select devs working on immediate scaling solutions to share their insights amongst one another.
           </p>
@@ -234,7 +234,21 @@ class App extends Component {
           <p>We encourage you to open your wallets and let the donations flow through. Your donation covers the costs of venue rentals and food expenses. We aren’t trying to force some cellophane wrapped sad-wiches on you - this is Barcelona, we’ve already found the best Tapas and Cava joints so we can collaborate over real Catalan culture.</p>
           <p>If we don’t receive enough donations to cover the event, the restaurants will be BYOETH, <strong>please be generous</strong>, you'll also indirectly sponsor complementary initiaves such as <a href="https://www.youtube.com/watch?v=aWvzQMorof0&list=PL4Artm1rmCWGksgoRe6HF5d9eklC01IcC">[Giveth's ScalingNOW! interview series]</a>.</p>
           <p>The ETH raised will be transparently tracked using the <a href="https://alpha.giveth.io/campaigns/ap6KXg8iJwwUAxBY">Giveth Platform</a> And if any donations are received beyond the costs detailed in the ScalingNow! Giveth Campaign, they will be split equally between Giveth and the Web3 Foundation to help make more magic like this happen.</p>
-          <p>Amount donated: <b>{this.state.totalAmount} ETH</b></p>
+          <div className="flex-row d-flex amount">
+          <div className="flex-column">
+            <strong>Amount donated </strong>
+            <h3>{this.state.totalAmount} ETH</h3>
+          </div>
+          <div className="flex-column">
+            <form className="Search">
+              <input
+                type="text"
+                onChange={this.onSearchChange}
+                placeholder="filter leaderboard"
+                />
+            </form>
+          </div>
+        </div>
           </div>
         <div className="flex-column donationColumn">
           <img src="/img/ways-to-donate.svg" className="typelogo img-fluid"/>
@@ -267,7 +281,7 @@ class App extends Component {
 
         <div className="flex-column leaderboard">
           <table className="table">
-            <thead>
+            <thead className="pagination-centered">
             <tr>
               <th>Rank</th>
               <th>Address</th>
@@ -294,14 +308,6 @@ class App extends Component {
           )}
           </tbody>
         </table>
-
-        <form className="Search">
-        <input
-          type="text"
-          onChange={this.onSearchChange}
-          placeholder="filter leaderboard"
-        />
-        </form>
 
       </div>
     </div>

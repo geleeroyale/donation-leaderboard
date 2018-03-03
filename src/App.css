@@ -27,8 +27,8 @@ h1, h2 {
 
 h3 {
   font-weight: 600;
-  font-size: 4rem;
-  padding-bottom: 2rem;
+  font-size: 2rem;
+  color: rgb(79, 147, 226);
 }
 
 h4, h6 {
@@ -56,6 +56,10 @@ p {
 
 thead {
     background-color: rgba(79, 147, 226, 0.7);
+}
+
+th {
+
 }
 
 .App {
@@ -99,14 +103,18 @@ thead {
 }
 
 .Search {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  min-width: 40vw;
-  text-align: right;
+  padding: 0px;
+  margin: 0px;
+  padding-left: 2rem;
 }
 
 .typelogo {
   padding: 2rem 2rem 2rem 2rem;
+}
+
+.amount {
+  display: block;
+  padding-left: 4rem;
 }
 
 .donationColumn {
