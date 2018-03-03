@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import MediaQuery from 'react-responsive';
+
 import Web3 from 'web3'
 
 const donationAddress = '0x9cb8921aa376219950ba134c15d8f5ee2769c599';
