@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import MediaQuery from 'react-responsive';
+import { css } from 'glamor'
 
 import Web3 from 'web3'
 
@@ -221,10 +221,18 @@ class App extends Component {
 
   render = () => {
      const candonate = this.state.candonate;
+
+     let responsiveness = css({
+       '@media(max-width: 700px)':
+       {
+        'flex-wrap': 'wrap'
+        }
+  })
+
     return  (
       <div  className="App container-fluid">
 
-      <div className="flex-row d-flex justify-content-around">
+      <div {...responsiveness} className="flex-row d-flex justify-content-around">
         <div className="flex-column introColumn">
         <img src="/img/scalingnow.png" className="typelogo img-fluid" alt="scaling now logo"/>
           <p><a href="https://web3.foundation/">Web3 Foundation</a> and <a href="https://giveth.io">Giveth</a> are hosting an in-person gathering exploring Ethereum Scaling Solutions on <strong>March 5th & 6th in Barcelona</strong>. This DApp acts as donation gateway and attendee list.</p>
