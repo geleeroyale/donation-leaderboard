@@ -5,6 +5,8 @@ import { css } from 'glamor'
 
 import Web3 from 'web3'
 
+import Emojify from 'react-emojione';
+
 const donationAddress = '0x9cb8921aa376219950ba134c15d8f5ee2769c599';
 
 //const donationAddress_e = '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819'; For Testnet
@@ -313,7 +315,7 @@ class App extends Component {
               <td>{item.rank} </td>
               <td>{item.from} </td>
               <td>{myweb3.utils.fromWei(item.value)} ETH</td>
-              <td>{myweb3.utils.hexToAscii(item.input)}</td>
+              <td><Emojify>{myweb3.utils.hexToAscii(item.input)}</Emojify></td>
               <td>
                 {item.hash.map((txHash, index) =>
                   <a key={index} href={'https://etherscan.io/tx/' + txHash}>[{index + 1}]</a>
