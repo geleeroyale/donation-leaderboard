@@ -153,7 +153,7 @@ class App extends Component {
 
 
   processEthList = (ethlist) => {
-    let totalAmount = new myweb3.utils.BN(0);
+    // let totalAmount = new myweb3.utils.BN(0);
     let filteredEthList = ethlist
       .map((obj) => {
         obj.value = new myweb3.utils.BN(obj.value); // convert string to BigNumber
@@ -178,7 +178,6 @@ class App extends Component {
         acc[cur.from].value = cur.value.add(acc[cur.from].value);
         acc[cur.from].input = cur.input !== '0x' && cur.input !== '0x00' ? cur.input : acc[cur.from].input;
         acc[cur.from].hash.push(cur.hash);
-        totalAmount = totalAmount.add(acc[cur.from].value);
         return acc;
       }, {});
     filteredEthList = Object.keys(filteredEthList).map((val) => filteredEthList[val])
@@ -189,9 +188,10 @@ class App extends Component {
         obj.rank = index + 1;
         return obj;
       });
+    const ethTotal = filteredEthList.reduce((acc, cur) => {return acc.add(cur.value)}, new myweb3.utils.BN(0));
     return this.setState({
       ethlist: filteredEthList,
-      totalAmount: parseFloat(myweb3.utils.fromWei(totalAmount)).toFixed(2),
+      totalAmount: parseFloat(myweb3.utils.fromWei(ethTotal)).toFixed(2),
     });
   }
 
