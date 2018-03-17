@@ -9,7 +9,7 @@
     "react-emojione": "^5.0.0",
     "react-responsive": "^4.0.4",
     "react-scripts": "1.1.1",
-    "web3": "^1.0.0-beta.30"
+    "web3": "1.0.0-beta.30"
   },
   "scripts": {
     "start": "react-scripts start",
