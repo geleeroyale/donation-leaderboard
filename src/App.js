@@ -251,12 +251,13 @@ class App extends Component {
           <p>We encourage you to open your wallets and let the donations flow through. Your donation covers the costs of venue rentals and food expenses. We aren’t trying to force some cellophane wrapped sad-wiches on you - this is Barcelona, we’ve already found the best Tapas and Cava joints so we can collaborate over real Catalan culture.</p>
           <p>If we don’t receive enough donations to cover the event, the restaurants will be BYOETH, <strong>please be generous</strong>, you'll also indirectly sponsor complementary initiaves such as <a href="https://www.youtube.com/watch?v=aWvzQMorof0&list=PL4Artm1rmCWGksgoRe6HF5d9eklC01IcC">Giveth's ScalingNOW! interview series</a>.</p>
           <p>The ETH raised will be transparently tracked using the <a href="https://alpha.giveth.io/campaigns/ap6KXg8iJwwUAxBY">Giveth Platform</a> And if any donations are received beyond the costs detailed in the ScalingNow! Giveth Campaign, they will be split equally between Giveth and the Web3 Foundation to help make more magic like this happen.</p>
-          <div className="flex-row d-flex amount">
-          <div className="flex-column">
+
+          <div {...responsiveness} className="flex-row d-flex amount">
+          <div className="flex-column margin">
             <strong>Amount donated </strong>
             <h3>{this.state.totalAmount} ETH</h3>
           </div>
-          <div className="flex-column">
+          <div className="flex-column margin">
             <form className="Search">
               <input
                 type="text"
