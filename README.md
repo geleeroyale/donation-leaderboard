@@ -1,10 +1,11 @@
 # Donation Leaderboard
 This web-application allows the display of transactions to an address on the Ethereum blockchain as a leaderboard.
 
-Status: **First campaign deployed** - see [ScalingNOW](https://scalingnow.giveth.io)
+Status: 
+**First campaign deployed** - see [ScalingNOW](https://scalingnow.giveth.io)
 
 ## Important
-We use different branches to build out the leaderboard for different initiatives to **deploy directly from their branch**. If you are a contributor to a specific deploy please stay within that branch an don't commit back to *Master*.
+We use different branches to build out the leaderboard for different initiatives to **deploy directly from their branch**. If you are a contributor to a specific deploy please stay within that branch and don't commit back to *Master*.
 
 ### Primer
 After the great success of the [Merry Merkle](https://merrymerkle.com)project by [TrueBit Team](https://truebit.io/) - they managed to collect over 130.000€ in ETH donations for a local charity project, we at [Giveth](https://giveth.io) figured it would be great if more Ethereum projects could use such a tool.
