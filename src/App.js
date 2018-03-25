@@ -273,7 +273,7 @@ class App extends Component {
             <img
               src="/img/placeholder-banner.svg"
               className="typelogo img-fluid"
-              alt="Giveth logo"
+              alt="Banner Placeholder"
             />
             <div className="introContainer">
               <h1>Donation Leaderboard</h1>
