@@ -9,7 +9,7 @@ import Emojify from "react-emojione";
 
 const donationNetworkID = 1; // make sure donations only go through on this network.
 
-const donationAddress = "0x1dba1131000664b884a1ba238464159892252d3a"; //replace with the address to watch
+const donationAddress = "0x5ADF43DD006c6C36506e2b2DFA352E60002d22Dc"; //replace with the address to watch
 const apiKey = "6DIUB7X6S92YJR6KXKF8V8ZU55IXT5PN2S"; //replace with your own key
 
 const etherscanApiLink =
@@ -277,7 +277,7 @@ class App extends Component {
             />
             <div className="introContainer">
               <h1>Donation Leaderboard</h1>
-              <p>To deploy your own leaderboard please:</p>
+              <p>To deploy your own leaderboard:</p>
               <ol>
                 <li>
                   1 - Star and fork the
@@ -305,6 +305,11 @@ class App extends Component {
                 {`Made with <3 by the Unicorns at `}
                 <a href="https://giveth.io">Giveth</a>
               </h4>
+              <p>
+                This page uses the Giveth Donation address. By donating you
+                support open source projects like this one.{" "}
+                <a href="https://giveth.io/donate/">More Info</a>
+              </p>
             </div>
 
             <div {...responsiveness} className="flex-row d-flex amount">
