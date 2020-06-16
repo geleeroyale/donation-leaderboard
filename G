@@ -1,0 +1,39 @@
+Tabla de clasificación de donaciones
+Esta aplicación web permite la visualización de transacciones a una dirección en la cadena de bloques Ethereum como tabla de clasificación.
+
+Estado: primera campaña desplegada - ver ScalingNOW
+
+Importante
+Utilizamos diferentes sucursales para construir la tabla de clasificación para diferentes iniciativas para implementar directamente desde su sucursal . Si usted contribuye a una implementación específica, permanezca dentro de esa rama y no se comprometa con Master .
+
+Cebador
+Después del gran éxito del proyecto Merry Merkle por parte del equipo TrueBit : lograron recaudar más de 130,000 € en donaciones de ETH para un proyecto de caridad local, en Giveth pensamos que sería genial si más proyectos de Ethereum pudieran usar esa herramienta.
+
+Después de jugar un poco con nuestra bifurcación, aún decidimos crear nuestra propia herramienta, porque el proyecto original nos pareció muy especializado por su causa y nos encantaría hacer una herramienta que pueda ser de uso general para muchos otros desarrolladores en el futuro.
+
+Colaboradores
+Este proyecto busca activamente contribuciones. Si tiene experiencia con web3 y / o React, no dude en ponerse en contacto con el propietario del repositorio @geleeroyale en GitHub o Riot.im
+
+Objetivo
+La misión, en caso de que lo acepte, es construir una interfaz de clasificación de reacción y un backend web3 que pueda monitorear una dirección para las transacciones. Consulte la Lista de problemas para obtener detalles sobre las tareas.
+
+Instalación
+1 - Star, Fork y Clone el repositorio
+
+2 - Ve a tu directorio local de repositorios y ejecuta npm install(requiere npm )
+
+3 - Visite la Lista de problemas o la Junta de planificación
+
+Apilar
+Etherscan API (debe cambiarse para abrir blockexplorer / scraper - ver problemas)
+web3.js
+glamour
+Reactjs via create-react-app
+Reaccionar
+Este proyecto se inició con la aplicación Create React .
+
+A continuación encontrará información sobre cómo realizar tareas comunes.
+Puede encontrar la versión más reciente de esta guía aquí .
+
+Atribución
+Gráfico Eth-Scaling de @cleo
